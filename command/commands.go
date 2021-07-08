@@ -212,6 +212,12 @@ func initCommands(ui, serverCmdUi cli.Ui, runOpts *RunOptions) {
 		}
 	}
 
+	getSshCommand := func() *SSHCommand {
+		return &SSHCommand{
+			BaseCommand: getBaseCommand(),
+		}
+	}
+
 	Commands = map[string]cli.CommandFactory{
 		"agent": func() (cli.Command, error) {
 			return &AgentCommand{
@@ -588,6 +594,11 @@ func initCommands(ui, serverCmdUi cli.Ui, runOpts *RunOptions) {
 		"ssh": func() (cli.Command, error) {
 			return &SSHCommand{
 				BaseCommand: getBaseCommand(),
+			}, nil
+		},
+		"scp": func() (cli.Command, error) {
+			return &SCPCommand{
+				SSHCommand: getSshCommand(),
 			}, nil
 		},
 		"status": func() (cli.Command, error) {
